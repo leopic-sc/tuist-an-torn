@@ -15,6 +15,6 @@ jobs:
         run: tuist generate
       - name: Build project (using tuist)
         run: tuist build
-      #- name: Build project
-      #  run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
+      - name: Build project (for realsies)
+        run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
 
