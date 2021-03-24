@@ -15,14 +15,5 @@ jobs:
         run: tuist generate
       - name: lint project
         run: tuist lint project
-      #- name: Build project (using tuist)
-      #  run: tuist build
-      #- name: run tests
-      #  run: tuist test
-      - name: Build project (using xcodebuild)
-        run: xcodebuild \
-             -workspace ExampleProject.xcworkspace \
-             -scheme ExampleProject \
-             -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' \
-             -showBuildTimingSummary
-
+      - name: Build and run unit tests
+        run: xcodebuild test -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary 
