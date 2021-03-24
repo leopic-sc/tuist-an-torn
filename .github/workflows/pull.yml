@@ -20,9 +20,9 @@ jobs:
       #- name: run tests
       #  run: tuist test
       - name: Build project (using xcodebuild)
-        run: xcodebuild |
-             -workspace ExampleProject.xcworkspace|
-             -scheme ExampleProject|
-             -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4'|
+        run: xcodebuild \
+             -workspace ExampleProject.xcworkspace \
+             -scheme ExampleProject \
+             -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' \
              -showBuildTimingSummary
 
