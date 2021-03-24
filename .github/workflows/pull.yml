@@ -1,4 +1,4 @@
-name: CI
+name: Big Bang
 
 on:
   push:
@@ -13,12 +13,16 @@ jobs:
         run: bash <(curl -Ls https://install.tuist.io)
       - name: Generate project
         run: tuist generate
-      - name: Build project (using tuist)
-        run: tuist build
       - name: lint project
         run: tuist lint project
-      - name: run tests
-        run: tuist test
-      #- name: Build project (for realsies)
-      #  run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
+      #- name: Build project (using tuist)
+      #  run: tuist build
+      #- name: run tests
+      #  run: tuist test
+      - name: Build project (using xcodebuild)
+        run: xcodebuild |
+             -workspace ExampleProject.xcworkspace|
+             -scheme ExampleProject|
+             -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4'|
+             -showBuildTimingSummary
 
