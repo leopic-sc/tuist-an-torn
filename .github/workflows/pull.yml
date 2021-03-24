@@ -13,6 +13,8 @@ jobs:
         run: bash <(curl -Ls https://install.tuist.io)
       - name: Generate project
         run: tuist generate
-      - name: Build project
-        run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
+      - name: Build project (using tuist)
+        run: tuist build
+      #- name: Build project
+      #  run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
 
