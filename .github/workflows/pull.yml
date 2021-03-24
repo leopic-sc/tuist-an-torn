@@ -15,5 +15,8 @@ jobs:
         run: tuist generate
       - name: lint project
         run: tuist lint project
+      - name: Install xcpretty
+        run: gem install xcpretty
       - name: Build and run unit tests
-        run: xcodebuild test -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary 
+        run: xcodebuild test -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty && exit ${PIPESTATUS[0]}
+
