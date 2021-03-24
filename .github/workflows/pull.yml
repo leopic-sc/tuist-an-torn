@@ -9,6 +9,10 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
+      - name: Install tuist
+        run: bash <(curl -Ls https://install.tuist.io)
+      - name: Generate project
+        run: tuist generate
       - name: Build project
         run: xcodebuild build -workspace ExampleProject.xcworkspace -scheme ExampleProject
 
