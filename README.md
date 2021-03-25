@@ -7,7 +7,7 @@ tuist test
 # Build everything once, parallelize test execution
 // Needs a new scheme that includes all tests, friggin tuist
 
-xcodebuild build-for-testing -scheme GlobalTests -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
+xcodebuild build-for-testing -workspace ExampleProject.xcworkspace -scheme ExampleProject-Project -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
 
 xcodebuild test-without-building -scheme ExampleProjectTests -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
 
