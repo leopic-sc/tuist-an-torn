@@ -18,48 +18,23 @@ jobs:
       - name: Install xcpretty
         run: gem install xcpretty
       - name: Build for testing
-        run: xcodebuild build-for-testing -workspace ExampleProject.xcworkspace -scheme ExampleProject-Project -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
-      - name: Cache derived data
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-derived-data
+        run: xcodebuild build-for-testing -derivedDataPath ./derived-data -resultBundlePath ./result-bundle -workspace ExampleProject.xcworkspace -scheme ExampleProject-Project -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
+      - name: Upload generated artifacts
+        uses: actions/upload-artifact@v2
         with:
-          path: |
-            /Users/runner/Library/Developer/Xcode/DerivedData
-            /Users/runner/work/tuist-an-torn/tuist-an-torn
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Cache current directory
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-current-directory
-        with:
-          path: |
-            /Users/runner/work/tuist-an-torn
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          name: generated artifacts
+          path: *.*
   run-unit-tests:
     name: second job
     needs: [build]
     runs-on: macos-latest
     steps:
-      - name: Retrieve derived data
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-derived-data
+      - name: Download generated artifacts
+        uses: actions/download-artifact@v2
         with:
-          path: /Users/runner/Library/Developer/Xcode/DerivedData
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Retrieve project directory
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-current-directory
-        with:
-          path: |
-            /Users/runner/work/tuist-an-torn
-          key: ${{ runner.os }}-build-${{ env.cache-name }}
+          name: generated artifacts
       - name: list content
         run: ls -altr
-      - name: list content in DerivedData
-        run: ls -altr /Users/runner/Library/Developer/Xcode/DerivedData
       #- name: Install xcpretty
       #  run: gem install xcpretty
       #- name: Tests for ExampleProjectKit scheme
