@@ -28,6 +28,14 @@ jobs:
             /Users/runner/Library/Developer/Xcode/DerivedData
             /Users/runner/work/tuist-an-torn/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Cache directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-directory
+        with:
+          path: |
+            /Users/runner/work/tuist-an-torn/tuist-an-torn
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
   run-unit-tests:
     name: second job
     needs: [build]
@@ -39,6 +47,14 @@ jobs:
           cache-name: cache-generated-build
         with:
           path: /Users/runner/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Cache directory
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-directory
+        with:
+          path: |
+            /Users/runner/work/tuist-an-torn/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
       - name: Install xcpretty
         run: gem install xcpretty
