@@ -23,7 +23,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: generated artifacts
-          path: *.*
+          path: ./*.*
   run-unit-tests:
     name: second job
     needs: [build]
