@@ -24,14 +24,10 @@ jobs:
         env:
           cache-name: cache-generated-build
         with:
-          path: /Users/runner/Library/Developer/Xcode/DerivedData
+          path:|
+            /Users/runner/Library/Developer/Xcode/DerivedData
+            /Users/runner/work/tuist-an-torn/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      #- name: Tests for ExampleProjectKit scheme
-      #  run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-      #- name: Tests for ExampleProjectUI scheme
-      #  run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-      #- name: Tests for ExampleProject scheme
-      #  run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
   run-unit-tests:
     name: second job
     needs: [build]
