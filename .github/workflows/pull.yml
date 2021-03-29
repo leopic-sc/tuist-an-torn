@@ -4,7 +4,7 @@ on: push
 
 jobs:
   build:
-    name: first job
+    name: build main project
     runs-on: macos-latest
     steps:
       - name: Checkout project
@@ -19,30 +19,59 @@ jobs:
         run: gem install xcpretty
       - name: Build for testing
         run: xcodebuild build-for-testing -workspace ExampleProject.xcworkspace -scheme ExampleProject-Project -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
-      - name: Tests for ExampleProjectKit scheme
-        run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-      - name: Tests for ExampleProjectUI scheme
-        run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-      - name: Tests for ExampleProject scheme
-        run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+      - name: Cache build
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-build
+        with:
+          path: /Users/runner/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      #- name: Tests for ExampleProjectKit scheme
+      #  run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+      #- name: Tests for ExampleProjectUI scheme
+      #  run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+      #- name: Tests for ExampleProject scheme
+      #  run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
   run-unit-tests:
     name: second job
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Install tuist
-        run: bash <(curl -Ls https://install.tuist.io)
-      - name: Generate project
-        run: tuist generate
-      - name: lint project
-        run: tuist lint project
+      - name: Cache build
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-build
+        with:
+          path: /Users/runner/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Tests for ExampleProjectKit scheme
+        run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
   run-something-else:
     name: third job
-    needs: [build, run-unit-tests]
+    needs: [build]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: terminate
-        run: echo "DONE"
+      - name: Cache build
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-build
+        with:
+          path: /Users/runner/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Tests for ExampleProjectUI scheme
+        run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+  run-final-tests:
+    name: fourth job
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cache build
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-generated-build
+        with:
+          path: /Users/runner/Library/Developer/Xcode/DerivedData
+          key: ${{ runner.os }}-build-${{ env.cache-name }}
+      - name: Tests for ExampleProject scheme
+        run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+
