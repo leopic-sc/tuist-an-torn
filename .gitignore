@@ -70,3 +70,9 @@ Derived/
 Tuist/Dependencies
 
 .bundle/
+
+# Derived data
+Index/
+Logs/
+ModuleCache.noindex/
+info.plist
