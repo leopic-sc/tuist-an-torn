@@ -41,16 +41,14 @@ jobs:
     needs: [build]
     runs-on: macos-latest
     steps:
-      - name: Checkout project
-        uses: actions/checkout@v2
-      - name: Cache derived data
+      - name: Retrieve derived data
         uses: actions/cache@v2
         env:
           cache-name: cache-derived-data
         with:
           path: /Users/runner/Library/Developer/Xcode/DerivedData
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Cache current directory
+      - name: Retrieve project directory
         uses: actions/cache@v2
         env:
           cache-name: cache-current-directory
@@ -61,41 +59,9 @@ jobs:
       - name: list content
         run: ls -altr
       - name: list content in DerivedData
-        run: ls /Users/runner/Library/Developer/Xcode/DerivedData -altr
+        run: ls -altr /Users/runner/Library/Developer/Xcode/DerivedData
       #- name: Install xcpretty
       #  run: gem install xcpretty
       #- name: Tests for ExampleProjectKit scheme
       #  run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-  # run-something-else:
-  #   name: third job
-  #   needs: [build]
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Cache build
-  #       uses: actions/cache@v2
-  #       env:
-  #         cache-name: cache-generated-build
-  #       with:
-  #         path: /Users/runner/Library/Developer/Xcode/DerivedData
-  #         key: ${{ runner.os }}-build-${{ env.cache-name }}
-  #     - name: Install xcpretty
-  #       run: gem install xcpretty
-  #     - name: Tests for ExampleProjectUI scheme
-  #       run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
-  # run-final-tests:
-  #   name: fourth job
-  #   needs: [build]
-  #   runs-on: macos-latest
-  #   steps:
-  #     - name: Cache build
-  #       uses: actions/cache@v2
-  #       env:
-  #         cache-name: cache-generated-build
-  #       with:
-  #         path: /Users/runner/Library/Developer/Xcode/DerivedData#
-  #         key: ${{ runner.os }}-build-${{ env.cache-name }}
-  #     - name: Install xcpretty
-  #       run: gem install xcpretty
-  #     - name: Tests for ExampleProject scheme
-  #       run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
 
