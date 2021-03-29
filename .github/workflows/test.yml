@@ -1,10 +1,10 @@
-name: Smaller bang
+name: Run all tests
 
 on: push
 
 jobs:
   build:
-    name: build main project
+    name: build project for testing
     runs-on: macos-latest
     steps:
       - name: Checkout project
@@ -26,29 +26,43 @@ jobs:
           path: |
             ./**.**
             ./**/**.**
-#            ./Derived/**.*
-#            ./Targets/**.*
-#            ./Tuist/**.*
-#            ./fastlane/**.*
-#            ./derived-data/**.*
-#            ./result-bundle/**.*
-#            ./SourcePackages/**.*
-  run-unit-tests:
-    name: second job
+  example-projectkit-tests:
+    name: example project kit tests
     needs: [build]
     runs-on: macos-latest
     steps:
-      - run: pwd
       - name: Download generated artifacts
         uses: actions/download-artifact@v2
         with:
           name: generated artifacts
-      - name: list content
-        run: ls -altr
-      - run: pwd
-      - run: ls -altr derived-data/
       - name: Install xcpretty
         run: gem install xcpretty
       - name: Tests for ExampleProjectKit scheme
         run: xcodebuild test-without-building -derivedDataPath ./derived-data -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+  example-project-tests:
+    name: example project tests
+    needs: [build]
+    runs-on: macos-latest
+    steps:
+      - name: Download generated artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: generated artifacts
+      - name: Install xcpretty
+        run: gem install xcpretty
+      - name: Tests for ExampleProject scheme
+        run: xcodebuild test-without-building -derivedDataPath ./derived-data -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+  example-projectui-tests:
+    name: example projectui tests
+    needs: [build]
+    runs-on: macos-latest
+    steps:
+      - name: Download generated artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: generated artifacts
+      - name: Install xcpretty
+        run: gem install xcpretty
+      - name: Tests for ExampleProject scheme
+        run: xcodebuild test-without-building -derivedDataPath ./derived-data -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
 
