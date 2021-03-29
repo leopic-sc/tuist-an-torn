@@ -38,8 +38,8 @@ jobs:
           name: generated artifacts
       - name: list content
         run: ls -altr
-      #- name: Install xcpretty
-      #  run: gem install xcpretty
-      #- name: Tests for ExampleProjectKit scheme
-      #  run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+      - name: Install xcpretty
+        run: gem install xcpretty
+      - name: Tests for ExampleProjectKit scheme
+        run: xcodebuild test-without-building -derivedDataPath ./derived-data -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
 
