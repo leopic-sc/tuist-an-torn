@@ -24,20 +24,29 @@ jobs:
         with:
           name: generated artifacts
           path: |
-            ./**.*
-            ./derived-data/**.*
-            ./result-bundle/**.*
+            ./**.**
+            ./**/**.**
+#            ./Derived/**.*
+#            ./Targets/**.*
+#            ./Tuist/**.*
+#            ./fastlane/**.*
+#            ./derived-data/**.*
+#            ./result-bundle/**.*
+#            ./SourcePackages/**.*
   run-unit-tests:
     name: second job
     needs: [build]
     runs-on: macos-latest
     steps:
+      - run: pwd
       - name: Download generated artifacts
         uses: actions/download-artifact@v2
         with:
           name: generated artifacts
       - name: list content
         run: ls -altr
+      - run: pwd
+      - run: ls -altr derived-data/
       - name: Install xcpretty
         run: gem install xcpretty
       - name: Tests for ExampleProjectKit scheme

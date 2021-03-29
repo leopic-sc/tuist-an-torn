@@ -77,3 +77,5 @@ Logs/
 ModuleCache.noindex/
 info.plist
 result-bundle*
+derived-data/*
+derived-data/TestResults/metadata.db
