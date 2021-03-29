@@ -1,6 +1,6 @@
 name: Big Bang
 
-on: pull_request
+on: push
 
 jobs:
   build:
@@ -19,22 +19,22 @@ jobs:
         run: gem install xcpretty
       - name: Build for testing
         run: xcodebuild build-for-testing -workspace ExampleProject.xcworkspace -scheme ExampleProject-Project -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' -showBuildTimingSummary | xcpretty
-      - name: Cache build
+      - name: Cache derived data
         uses: actions/cache@v2
         env:
-          cache-name: cache-generated-build
+          cache-name: cache-derived-data
         with:
           path: |
             /Users/runner/Library/Developer/Xcode/DerivedData
             /Users/runner/work/tuist-an-torn/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Cache directory
+      - name: Cache current directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-generated-directory
+          cache-name: cache-current-directory
         with:
           path: |
-            /Users/runner/work/tuist-an-torn/tuist-an-torn
+            /Users/runner/work/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
   run-unit-tests:
     name: second job
@@ -43,25 +43,29 @@ jobs:
     steps:
       - name: Checkout project
         uses: actions/checkout@v2
-      - name: Cache build
+      - name: Cache derived data
         uses: actions/cache@v2
         env:
-          cache-name: cache-generated-build
+          cache-name: cache-derived-data
         with:
           path: /Users/runner/Library/Developer/Xcode/DerivedData
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Cache directory
+      - name: Cache current directory
         uses: actions/cache@v2
         env:
-          cache-name: cache-generated-directory
+          cache-name: cache-current-directory
         with:
           path: |
-            /Users/runner/work/tuist-an-torn/tuist-an-torn
+            /Users/runner/work/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
-      - name: Install xcpretty
-        run: gem install xcpretty
-      - name: Tests for ExampleProjectKit scheme
-        run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+      - name: list content
+        run: ls -altr
+      - name: list content in DerivedData
+        run: ls /Users/runner/Library/Developer/Xcode/DerivedData -altr
+      #- name: Install xcpretty
+      #  run: gem install xcpretty
+      #- name: Tests for ExampleProjectKit scheme
+      #  run: xcodebuild test-without-building -scheme ExampleProjectKit -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
   # run-something-else:
   #   name: third job
   #   needs: [build]
