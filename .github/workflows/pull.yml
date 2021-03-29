@@ -25,6 +25,7 @@ jobs:
         run: xcodebuild test-without-building -scheme ExampleProjectUI -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
       - name: Tests for ExampleProject scheme
         run: xcodebuild test-without-building -scheme ExampleProject -destination 'platform=iOS Simulator,name=iPhone 8 Plus,OS=14.4' | xcpretty
+
   run-unit-tests:
     runs-on: ubuntu-latest
       - name: Checkout project
