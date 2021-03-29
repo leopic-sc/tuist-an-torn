@@ -41,6 +41,8 @@ jobs:
     needs: [build]
     runs-on: macos-latest
     steps:
+      - name: Checkout project
+        uses: actions/checkout@v2
       - name: Cache build
         uses: actions/cache@v2
         env:
