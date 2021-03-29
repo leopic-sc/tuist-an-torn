@@ -24,7 +24,7 @@ jobs:
         env:
           cache-name: cache-generated-build
         with:
-          path:|
+          path: |
             /Users/runner/Library/Developer/Xcode/DerivedData
             /Users/runner/work/tuist-an-torn/tuist-an-torn
           key: ${{ runner.os }}-build-${{ env.cache-name }}
