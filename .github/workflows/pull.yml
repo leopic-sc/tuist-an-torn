@@ -12,7 +12,7 @@ jobs:
       - name: Install tuist
         run: bash <(curl -Ls https://install.tuist.io)
       - name: Generate project
-        run: tuist generate
+        run: ./scripts/ci/step-bootstrap.sh
       - name: lint project
         run: tuist lint project
       - name: Install xcpretty
